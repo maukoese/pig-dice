@@ -1,0 +1,1 @@
+var toll = function( name1, name2 ){}
