@@ -1,50 +1,118 @@
 <!DOCTYPE html>
-<html>
+<html lang=>
 <head>
-	<title>Ping Pong</title>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
-	<link rel="stylesheet" type="text/css" href="css/bootstrap.css">
-	<link rel="stylesheet" type="text/css" href="css/styles.css">
-	<script type="text/javascript" src="js/jquery.min.js"></script>
-	<script type="text/javascript" src="js/pig.js"></script>
-	<script type="text/javascript">
-		 $(document).ready(function() {
-        $("form#theff").submit(function(event) {
-          event.preventDefault();
-          var unumber = parseInt($("#unumber").val());
-          //alert( ping(unumber) );
-          var result = pong(unumber);
-          var data = result.map( function (argy) {
-          	return "<li>"+argy+"</li>";
-          });
-          $("#output").html( data);
-        });
-      });
-	</script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css">
+    <link rel="stylesheet" href="css/styles.css" type="text/css">
+    <script src="js/jquery-3.2.1.js"></script>
+    <script src="js/scripts.js"></script>
+    <title>Pig Dice</title>
 </head>
+
 <body>
-	<header>
-		<h3><a class="logo center" href=".">Pig Dice</a>
-		</h3>
-	</header>
-	<main>
-		<div class="container">
-			<div class="jumbotron">		
-			<form class="form" id="theff" class="row">
-			<div class="col-md-6">
-				<p>Player One <input type="text" name="unumber" id="player1"></p>
-				<p>Player Two <input type="text" name="unumber" id="player2"></p>
-		</div>
-			<button type="submit" id="checky" name="checky">Submit</button>
-			</form>
-			<ul id="output"></ul>
-		</div>
-		</div>
-	</main>
-	<footer>
-		<span class="right">By <a href="https://github.com/maukoese">Mauko Maunde</a></span>
-	</footer>
+  <div class="container header">
+    <nav>
+      <a href=".">Home</a>
+      <ul class="menu">
+      <li><a href="about.html">About</a> | </li>
+      <li><a href="rules.html">Rules</a></li>
+    </ul>
+    </nav>
+  </div>
+    <div class="container">
+        <div class="jumbotron">
+          <div id="players-hiding">
+        <div class="players">
+          <form>
+            <label for="player">Player 1 Name</label>
+            <input id="player1" type="text">
+            <label for="player2">Player 2 Name</label>
+            <input id="player2" type="text">
+            <button type="submit" id="btn" class="btn btn-default"><span class="click">Play</span></button>
+          </form>
+        </div>
+       </div>
+        </div>
+       
+        <div class="row">
+           <div class="col-md-6">
+             <div id="player2-score text-center">
+               <h3><span class="Player1name"></span></h3>
+               <div class="score">
+                  <h6>SCORE</h6>
+                  <p>Die Roll: <span class="die-roll1"></span> </p>
+                   <p>Turn Score: <span class="turn-score"></span> </p>
+                   <p>Total Score: <span class="total-score"></span> </p>
+               </div>
+             </div>
+               <button type="button" class="btn btn-default roll1">Roll</button>
+               <button type="button"  class="btn btn-default hold1">Hold</button>
+           </div>
+           <div class="col-md-6">
+             <div id="player2-score text-center">
+              <h3><span class="Player2name"></span></h3>
+               <div class="score">
+                  <h6>SCORE</h6>
+                  <p>Die Roll: <span class="die-roll2"></span> </p>
+                   <p>Turn Score: <span class="turn-score2"></span> </p>
+                   <p>Total Score: <span class="total"></span> </p>
+               </div>
+             </div>
+               <button type="button" class="roll2 btn btn-default">Roll</button>
+               <button type="button" class="btn btn-default hold2">Hold</button>
+           </div>
+       </div>
+  </div>
+<script type="text/javascript">
+  $("form").submit(function (event) {
+    event.preventDefault();
+    //store userinput
+    var player1 = $("#player1").val();
+    var player2 = $("#player2").val();
+    //create instances of the object
+    p1 = new Player(player1, 0, 0);
+    p2 = new Player(player2, 0, 0);
+    //Display the name of the users
+
+    $(".Player1name").text(p1.Name);
+    $(".Player2name").text(p2.Name);
+
+    Clearfield();
+});
+$(".roll1").click(function (event) {
+    event.preventDefault();
+   // $("#player2-score").hide();
+    var player1Roll = p1.roll();
+
+    $(".turn-score").text(p1.turnScore);
+    $(".die-roll1").text(player1Roll);
+    //console.log(player1.turnScore)
+});
+$(".hold1").click(function(event){
+    event.preventDefault();
+    p1.score();
+    $(".total-score").text(p1.totalScore);
+    $(".die-roll").text("")
+    $(".turn-score").text("");
+})
+$(".roll2").click(function (event) {
+    event.preventDefault();
+   // $("#player2-score").hide();
+    var player2Roll = p2.roll();
+
+    $(".turn-score2").text(p2.turnScore);
+    $(".die-roll2").text(player2Roll);
+    console.log(p2.turnScore)
+});
+$(".hold2").click(function(event){
+    event.preventDefault();
+    p2.score();
+    $(".total").text(p2.totalScore);
+    $(".die-roll2").text("")
+    $(".turn-score2").text("");
+})
+</script>
 </body>
 </html>
